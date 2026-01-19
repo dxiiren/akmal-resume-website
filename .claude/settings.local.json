@@ -23,7 +23,8 @@
       "Bash(ls -la \"C:\\\\Users\\\\User\\\\Desktop\\\\code\\\\akmal-resume-website\\\\assets\\\\css\"\" 2>/dev/null || echo \"CSS directory not found \")",
       "Bash(curl:*)",
       "WebFetch(domain:brandfetch.com)",
-      "WebFetch(domain:content.excelerate.asia)"
+      "WebFetch(domain:content.excelerate.asia)",
+      "Bash(cd:*)"
     ]
   }
 }
