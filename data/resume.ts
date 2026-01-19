@@ -83,10 +83,21 @@ class AkmalSuhaimi extends BackendEngineer
 
   education: [
     {
+      degree: 'Master of Business Administration (MBA)',
+      institution: 'To Be Determined',
+      location: 'Malaysia',
+      period: '2028',
+      status: 'planned',
+    },
+    {
       degree: 'Bachelor of Business Administration (Honours)',
       institution: 'Innovative University College (IUC)',
       location: 'Petaling Jaya, Selangor',
       period: 'Oct 2025 – Present',
+      status: 'ongoing',
+      expectedCompletion: 'Dec 2027',
+      link: 'https://innovative.edu.my/',
+      logo: '/images/logos/iuc.png',
     },
     {
       degree: 'Diploma in Computer Science',
@@ -94,6 +105,9 @@ class AkmalSuhaimi extends BackendEngineer
       location: 'Kuala Terengganu, Terengganu',
       period: 'Sept 2020 – Feb 2023',
       cgpa: '3.86',
+      status: 'completed',
+      link: 'https://www.uitm.edu.my/en/',
+      logo: '/images/logos/uitm.png',
     },
   ],
 
@@ -144,6 +158,8 @@ class AkmalSuhaimi extends BackendEngineer
       location: 'Claymont, Delaware, United States',
       workMode: 'Remote',
       impactMetric: '95% data mismatch reduction',
+      link: 'https://www.yoprint.com/',
+      logo: '/images/logos/yoprint.png',
       achievements: [
         'Architected and delivered a custom Shopify integration as part of YoPrint\'s core backend workflows, enabling real-time synchronization of orders, fulfilment, invoicing, and payments while eliminating manual operational handling and reducing data mismatches by 95%',
         'Introduced test-driven development practices to safeguard critical business logic and edge cases, achieving 85% test coverage and reducing regression defects by 25% as new backend features were introduced',
@@ -159,6 +175,8 @@ class AkmalSuhaimi extends BackendEngineer
       location: 'Puchong, Selangor',
       workMode: 'Remote',
       impactMetric: '50K+ daily transactions',
+      link: 'https://biztory.com.my/',
+      logo: '/images/logos/biztory.png',
       achievements: [
         'Joined during an ongoing migration from monolithic architecture to microservices and contributed by analysing service dependencies and refining service boundaries, supporting the decoupling of 5 core services and reducing technical debt by 40% while improving long-term maintainability',
         'Engineered third-party API integrations for E-Invoice and e-commerce platforms, processing over 50,000 transactions daily and reducing manual processing time by 30% through optimized webhook handling',
@@ -175,6 +193,8 @@ class AkmalSuhaimi extends BackendEngineer
       location: 'Kepong, Kuala Lumpur',
       workMode: 'On-site',
       impactMetric: '30% productivity increase',
+      link: 'https://eanlabel.com.my/',
+      logo: '/images/logos/eanlabel.png',
       achievements: [
         'Analysed operational inefficiencies in internal workflows and supported the integration of a CRM module into the existing system, improving task tracking and increasing productivity for operational teams by 30%',
         'Contributed to the reengineering of a SaaS product by improving backend structure and system usability, supporting better scalability and contributing to a 20% increase in user engagement',
@@ -190,6 +210,8 @@ class AkmalSuhaimi extends BackendEngineer
       location: 'Kajang, Selangor',
       workMode: 'Hybrid',
       impactMetric: '60% faster deployments',
+      link: 'https://appvolusi.com/',
+      logo: '/images/logos/appvolusi.png',
       achievements: [
         'Constructed server-side logic for healthcare custom platform, delivering custom reporting modules with performance analytics that reduced manual reporting time by 45% and improved decision-making with real-time operational and clinical data',
         'Programmed RESTful APIs with Laravel supporting front-end personalization and user segmentation, enabling targeted content delivery that increased user engagement by 20% across web and mobile applications',
@@ -202,7 +224,7 @@ class AkmalSuhaimi extends BackendEngineer
   projects: [
     {
       name: 'MyInvois LHDN E-Invoicing Integration',
-      year: '2024',
+      year: '2025',
       type: 'Integration',
       impactMetric: '10K+ monthly invoices',
       technologies: ['PHP', 'Laravel', 'LHDN API', 'Peppol', 'XML Processing'],
@@ -210,6 +232,7 @@ class AkmalSuhaimi extends BackendEngineer
         'Integrated back-end APIs with Malaysia\'s LHDN e-Invoicing system ensuring compliance with government regulations, processing 10,000+ invoices monthly with 99.5% success rate',
         'Streamlined invoicing workflow reducing submission time by 50% and eliminating manual data entry errors',
       ],
+      link: 'https://sdk.myinvois.hasil.gov.my/api/',
     },
     {
       name: 'Jom Say Heart Healthcare Platform',
@@ -221,6 +244,7 @@ class AkmalSuhaimi extends BackendEngineer
         'Designed comprehensive patient management system with appointment scheduling, data storage integration, and secure patient record handling, serving 200+ healthcare practitioners',
         'Implemented automated appointment reminders and calendar synchronization, reducing no-show rates by 35%',
       ],
+      link: 'https://www.jomsayheart.com/',
     },
     {
       name: 'Resitku Receipt Management System',
@@ -232,6 +256,7 @@ class AkmalSuhaimi extends BackendEngineer
         'Built web application for receipt management and financial reporting using MVC design pattern, generating automated profit/loss reports for small business owners',
         'Created responsive user interface with intuitive admin dashboard, reducing data entry time by 40%',
       ],
+      link: 'https://resitku.com/',
     },
   ],
 
@@ -240,41 +265,36 @@ class AkmalSuhaimi extends BackendEngineer
       name: 'Create a Website Using WordPress: Free Hosting & Sub-domain',
       provider: 'Coursera',
       year: '2023',
+      link: 'https://www.coursera.org/account/accomplishments/verify/28ZSXREXU8VS',
+      logo: '/images/logos/coursera.png',
     },
     {
       name: 'Build a Full Website using WordPress',
       provider: 'Coursera',
       year: '2023',
+      link: 'https://www.coursera.org/account/accomplishments/verify/FZTS6FQRWBRT',
+      logo: '/images/logos/coursera.png',
     },
     {
       name: 'Python Programming Bootcamp',
       provider: 'Khazanah Youth Development Program',
       year: '2023',
+      link: 'https://drive.google.com/file/d/18MPYOgnXR_gyHKEbU-FWKdmPM97qawcj/view',
+      logo: '/images/logos/khazanah.png',
     },
     {
       name: 'Master Laravel 11 & PHP: From Beginner to Advanced',
       provider: 'Udemy',
       year: '2025',
+      link: 'https://www.udemy.com/certificate/UC-bfe04238-90d0-4d22-974a-d89ec269192a/',
+      logo: '/images/logos/udemy.png',
     },
     {
       name: 'Vue Developer Bootcamp',
       provider: 'Udemy',
       year: '2025',
-    },
-  ],
-
-  references: [
-    {
-      name: 'Ridzwan Noor Bin Abu Samah',
-      title: 'Chief Operating Officer',
-      company: 'Appvolusi Sdn Bhd',
-      phone: '012-342-2197',
-    },
-    {
-      name: 'Ameer Wahab',
-      title: 'Team Lead',
-      company: 'Biztory Cloud Sdn Bhd',
-      phone: '013-317-1733',
+      link: 'https://www.udemy.com/certificate/UC-25a1f000-a45a-4b93-8181-2fcd3ccc7dea/',
+      logo: '/images/logos/udemy.png',
     },
   ],
 }

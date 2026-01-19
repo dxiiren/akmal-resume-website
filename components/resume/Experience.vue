@@ -5,7 +5,7 @@ import { Pagination, FreeMode } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/free-mode'
-import { Briefcase, MapPin, Calendar, ChevronRight, Zap } from 'lucide-vue-next'
+import { Briefcase, MapPin, Calendar, ChevronRight, Zap, ExternalLink } from 'lucide-vue-next'
 import type { Experience } from '~/types/resume'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '~/components/ui/card'
 import { Badge } from '~/components/ui/badge'
@@ -68,16 +68,37 @@ const getTerminalPath = (company: string) => {
 
               <CardHeader class="relative">
                 <div class="flex flex-col gap-2">
-                  <div class="flex items-start justify-between gap-2">
-                    <CardTitle class="text-lg leading-tight">{{ job.title }}</CardTitle>
-                    <Badge variant="outline" class="flex-shrink-0 text-xs border-primary/30">
-                      {{ job.workMode }}
-                    </Badge>
+                  <div class="flex items-start gap-3">
+                    <!-- Company Logo -->
+                    <div v-if="job.logo" class="flex-shrink-0 h-10 w-10 rounded-lg bg-white p-1.5 shadow-sm">
+                      <img :src="job.logo" :alt="job.company" class="h-full w-full object-contain" />
+                    </div>
+                    <div v-else class="flex-shrink-0 h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <Briefcase class="h-5 w-5 text-primary" />
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <div class="flex items-start justify-between gap-2">
+                        <CardTitle class="text-lg leading-tight">{{ job.title }}</CardTitle>
+                        <Badge variant="outline" class="flex-shrink-0 text-xs border-primary/30">
+                          {{ job.workMode }}
+                        </Badge>
+                      </div>
+                      <CardDescription class="flex items-center gap-2 text-sm mt-1">
+                        <a
+                          v-if="job.link"
+                          :href="job.link"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="flex items-center gap-1 hover:text-primary transition-colors"
+                          @click.stop
+                        >
+                          {{ job.company }}
+                          <ExternalLink class="h-3 w-3" />
+                        </a>
+                        <span v-else>{{ job.company }}</span>
+                      </CardDescription>
+                    </div>
                   </div>
-                  <CardDescription class="flex items-center gap-2 text-sm">
-                    <Briefcase class="h-3 w-3" />
-                    {{ job.company }}
-                  </CardDescription>
                   <!-- Impact Metric Badge -->
                   <Badge v-if="job.impactMetric" class="w-fit bg-primary/10 text-primary border-primary/30 text-xs">
                     <Zap class="h-3 w-3 mr-1" />
@@ -170,12 +191,30 @@ const getTerminalPath = (company: string) => {
 
             <CardHeader class="pl-8 relative">
               <div class="flex flex-wrap items-start justify-between gap-4">
-                <div>
-                  <CardTitle class="text-xl transition-colors group-hover:text-primary">{{ job.title }}</CardTitle>
-                  <CardDescription class="mt-1 flex items-center gap-2 text-base">
-                    <Briefcase class="h-4 w-4 transition-transform group-hover:scale-110" />
-                    {{ job.company }}
-                  </CardDescription>
+                <div class="flex items-start gap-4">
+                  <!-- Company Logo -->
+                  <div v-if="job.logo" class="flex-shrink-0 h-12 w-12 rounded-lg bg-white p-1.5 shadow-sm">
+                    <img :src="job.logo" :alt="job.company" class="h-full w-full object-contain" />
+                  </div>
+                  <div v-else class="flex-shrink-0 h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <Briefcase class="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <CardTitle class="text-xl transition-colors group-hover:text-primary">{{ job.title }}</CardTitle>
+                    <CardDescription class="mt-1 flex items-center gap-2 text-base">
+                      <a
+                        v-if="job.link"
+                        :href="job.link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="flex items-center gap-1 hover:text-primary transition-colors"
+                      >
+                        {{ job.company }}
+                        <ExternalLink class="h-4 w-4" />
+                      </a>
+                      <span v-else>{{ job.company }}</span>
+                    </CardDescription>
+                  </div>
                 </div>
                 <div class="flex flex-col items-end gap-1 text-sm text-muted-foreground">
                   <span class="flex items-center gap-1">

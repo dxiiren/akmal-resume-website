@@ -17,6 +17,10 @@ export interface Education {
   location: string
   period: string
   cgpa?: string
+  status?: 'ongoing' | 'completed' | 'planned'
+  expectedCompletion?: string
+  link?: string
+  logo?: string
 }
 
 export interface SkillCategory {
@@ -33,6 +37,8 @@ export interface Experience {
   workMode: string
   achievements: string[]
   impactMetric?: string
+  link?: string
+  logo?: string
 }
 
 export interface Project {
@@ -42,19 +48,15 @@ export interface Project {
   achievements: string[]
   type?: 'Integration' | 'Platform' | 'System'
   impactMetric?: string
+  link?: string
 }
 
 export interface Certification {
   name: string
   provider: string
   year: string
-}
-
-export interface Reference {
-  name: string
-  title: string
-  company: string
-  phone: string
+  link?: string
+  logo?: string
 }
 
 // New interfaces for brand identity
@@ -93,7 +95,6 @@ export interface Resume {
   experience: Experience[]
   projects: Project[]
   certifications: Certification[]
-  references: Reference[]
   // New brand identity fields
   tagline?: string
   roles?: string[]

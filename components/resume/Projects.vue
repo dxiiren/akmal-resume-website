@@ -75,6 +75,13 @@ const handleMouseLeave = (cardEl: HTMLElement) => {
           class="projects-carousel pb-10"
         >
           <SwiperSlide v-for="(project, index) in projects" :key="index" class="h-auto">
+            <a
+              :href="project.link"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="block h-full"
+              :class="{ 'cursor-pointer': project.link, 'cursor-default pointer-events-none': !project.link }"
+            >
             <Card class="group relative overflow-hidden h-full border-primary/10">
               <!-- Terminal header -->
               <div class="flex items-center gap-2 border-b border-border/50 bg-muted/30 px-4 py-2">
@@ -133,22 +140,33 @@ const handleMouseLeave = (cardEl: HTMLElement) => {
                     {{ achievement }}
                   </li>
                 </ul>
+                <!-- External link indicator -->
+                <div v-if="project.link" class="absolute bottom-4 right-4">
+                  <ExternalLink class="h-4 w-4 text-primary" />
+                </div>
               </CardContent>
             </Card>
+            </a>
           </SwiperSlide>
         </Swiper>
       </div>
 
       <!-- Desktop Grid (hidden on small screens) -->
       <div class="hidden md:grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <Card
+        <a
           v-for="(project, index) in projects"
           :key="index"
-          class="group relative flex flex-col overflow-hidden opacity-0 gradient-border cursor-default border-primary/10 hover:border-primary/30"
+          :href="project.link"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="block opacity-0"
           :class="[
-            { 'animate-fade-in-up': isVisible },
+            { 'animate-fade-in-up': isVisible, 'cursor-pointer': project.link, 'cursor-default pointer-events-none': !project.link },
             getAnimationDelay(index)
           ]"
+        >
+        <Card
+          class="group relative flex flex-col overflow-hidden h-full gradient-border border-primary/10 hover:border-primary/30"
           style="transition: transform 0.2s ease-out"
           @mousemove="(e: MouseEvent) => handleMouseMove(e, e.currentTarget as HTMLElement)"
           @mouseleave="(e: MouseEvent) => handleMouseLeave(e.currentTarget as HTMLElement)"
@@ -218,11 +236,12 @@ const handleMouseLeave = (cardEl: HTMLElement) => {
             </ul>
 
             <!-- External link indicator that fades in -->
-            <div class="absolute bottom-4 right-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            <div v-if="project.link" class="absolute bottom-4 right-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
               <ExternalLink class="h-4 w-4 text-primary" />
             </div>
           </CardContent>
         </Card>
+        </a>
       </div>
     </div>
 

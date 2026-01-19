@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Menu, X, Terminal } from 'lucide-vue-next'
+import { Menu, X } from 'lucide-vue-next'
 import { Button } from '~/components/ui/button'
 
 const isMenuOpen = ref(false)
@@ -23,11 +23,9 @@ const scrollToSection = (href: string) => {
 <template>
   <header class="sticky top-0 z-50 w-full border-b border-primary/10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
     <div class="container mx-auto flex h-16 items-center justify-between px-4">
-      <!-- Logo with terminal cursor -->
+      <!-- Logo -->
       <a href="/" class="flex items-center gap-2 text-xl font-bold text-primary group">
-        <Terminal class="h-5 w-5 transition-transform group-hover:rotate-12" />
-        <span>AS</span>
-        <span class="text-primary animate-terminal-blink">_</span>
+        <img src="/favicon-32x32.png" alt="Akmal Suhaimi Logo" class="h-8 w-8 transition-transform group-hover:rotate-12" />
       </a>
 
       <!-- Availability Status - Desktop only -->
