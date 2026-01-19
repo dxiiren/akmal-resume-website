@@ -10,7 +10,7 @@ export default defineNuxtConfig({
 
   // Site configuration for SEO module
   site: {
-    url: 'https://akmalsuhaimi.com',
+    url: 'https://akmal-resume-website.vercel.app',
     name: 'Akmal Suhaimi - Backend Engineer',
     description: 'Backend Engineer with 4+ years of experience in PHP, Laravel, MySQL, and cloud-based systems.',
     defaultLocale: 'en',
@@ -19,8 +19,8 @@ export default defineNuxtConfig({
   // Robots configuration
   robots: {
     allow: ['/'],
-    disallow: ['/download', '/api/'],
-    sitemap: 'https://akmalsuhaimi.com/sitemap.xml',
+    disallow: ['/download'],
+    sitemap: 'https://akmal-resume-website.vercel.app/sitemap.xml',
   },
 
   // Sitemap configuration
@@ -43,6 +43,11 @@ export default defineNuxtConfig({
       htmlAttrs: {
         lang: 'en',
       },
+      script: [
+        {
+          innerHTML: `(function(){var s=localStorage.getItem('color-mode');var p=window.matchMedia('(prefers-color-scheme: dark)').matches;var t=s?JSON.parse(s):(p?'dark':'light');document.documentElement.classList.toggle('dark',t==='dark')})();`,
+        },
+      ],
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
       title: 'Akmal Suhaimi - Backend Engineer',
@@ -54,10 +59,10 @@ export default defineNuxtConfig({
         // Open Graph
         { property: 'og:type', content: 'website' },
         { property: 'og:site_name', content: 'Akmal Suhaimi - Backend Engineer' },
-        { property: 'og:url', content: 'https://akmalsuhaimi.com' },
+        { property: 'og:url', content: 'https://akmal-resume-website.vercel.app' },
         { property: 'og:title', content: 'Akmal Suhaimi - Backend Engineer' },
         { property: 'og:description', content: 'Backend Engineer with 4+ years of experience in PHP, Laravel, MySQL, and cloud-based systems.' },
-        { property: 'og:image', content: 'https://akmalsuhaimi.com/og-image.jpg' },
+        { property: 'og:image', content: 'https://akmal-resume-website.vercel.app/og-image.jpg' },
         { property: 'og:image:width', content: '1200' },
         { property: 'og:image:height', content: '630' },
         { property: 'og:image:alt', content: 'Akmal Suhaimi - Backend Engineer' },
@@ -66,7 +71,7 @@ export default defineNuxtConfig({
         { name: 'twitter:card', content: 'summary_large_image' },
         { name: 'twitter:title', content: 'Akmal Suhaimi - Backend Engineer' },
         { name: 'twitter:description', content: 'Backend Engineer with 4+ years of experience in PHP, Laravel, MySQL, and cloud-based systems.' },
-        { name: 'twitter:image', content: 'https://akmalsuhaimi.com/og-image.jpg' },
+        { name: 'twitter:image', content: 'https://akmal-resume-website.vercel.app/og-image.jpg' },
         { name: 'twitter:image:alt', content: 'Akmal Suhaimi - Backend Engineer' },
       ],
       link: [
@@ -75,7 +80,7 @@ export default defineNuxtConfig({
         { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
         { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
         { rel: 'manifest', href: '/site.webmanifest' },
-        { rel: 'canonical', href: 'https://akmalsuhaimi.com' },
+        { rel: 'canonical', href: 'https://akmal-resume-website.vercel.app' },
         // Preconnect for fonts
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },

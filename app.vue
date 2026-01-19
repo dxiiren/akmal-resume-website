@@ -1,5 +1,10 @@
+<script setup lang="ts">
+// Initialize color mode at app root
+useColorMode()
+</script>
+
 <template>
-  <div class="min-h-screen bg-background font-sans antialiased">
+  <div class="min-h-screen bg-background font-sans antialiased theme-transition">
     <NuxtPage />
   </div>
 </template>

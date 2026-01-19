@@ -46,15 +46,19 @@ const scrollToSection = (href: string) => {
           {{ item.label }}
           <span class="absolute -bottom-1 left-0 h-0.5 w-0 bg-primary transition-all duration-300 group-hover:w-full" />
         </a>
+        <ThemeToggle />
       </nav>
 
-      <!-- Mobile: Availability + Menu -->
-      <div class="flex items-center gap-3 md:hidden">
+      <!-- Mobile: Availability + Theme + Menu -->
+      <div class="flex items-center gap-2 md:hidden">
         <!-- Mobile Availability Status -->
         <div class="flex items-center gap-1.5 px-2 py-1 rounded-full border border-green-500/30 bg-green-500/10">
           <div class="h-1.5 w-1.5 rounded-full bg-green-500 status-pulse" />
           <span class="text-[10px] text-green-500 font-medium">Available</span>
         </div>
+
+        <!-- Theme Toggle -->
+        <ThemeToggle />
 
         <!-- Mobile Menu Button -->
         <Button
