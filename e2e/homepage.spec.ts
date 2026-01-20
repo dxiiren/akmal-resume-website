@@ -25,16 +25,9 @@ test.describe('Homepage', () => {
   })
 
   test('navigation scrolls to sections', async ({ page, isMobile }) => {
-    // Skip on mobile as navigation is hidden
-    if (isMobile) {
-      test.skip()
-      return
-    }
+    test.skip(isMobile, 'Navigation links hidden on mobile')
 
-    // Click on Skills navigation (desktop only)
     await page.click('a[href="#skills"]')
-
-    // Check that skills section is in view
     const skillsSection = page.locator('#skills')
     await expect(skillsSection).toBeInViewport()
   })
