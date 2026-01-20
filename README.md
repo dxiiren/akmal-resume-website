@@ -1,6 +1,6 @@
 # Akmal Suhaimi - Resume Website
 
-A modern, responsive resume/portfolio website built with Nuxt 3, Vue 3, and Tailwind CSS.
+A modern, responsive resume/portfolio website built with Nuxt 3, Vue 3, and Tailwind CSS. Features a terminal-inspired design with smooth animations and comprehensive test coverage.
 
 ## Live Demo
 
@@ -8,13 +8,32 @@ A modern, responsive resume/portfolio website built with Nuxt 3, Vue 3, and Tail
 
 ## Features
 
-- Responsive design for all devices
+### Core Features
+- Responsive design for all devices (mobile, tablet, desktop)
 - Dark/Light mode toggle with system preference detection
-- Smooth scroll navigation
-- Terminal-inspired design elements
+- Smooth scroll navigation with animated header
+- Terminal-inspired design elements throughout
 - SEO optimized with Open Graph and Twitter Card support
 - PWA ready with icons and manifest
-- CV download functionality
+- Password-protected CV download functionality
+
+### Sections
+- **Hero** - Animated typewriter name, rotating roles, value proposition, and social CTAs
+- **Summary** - Professional pillars with animated cards
+- **Skills** - Core stack highlight with categorized skill badges
+- **Experience** - Timeline layout with company logos and impact metrics
+- **Projects** - 3D tilt effect cards with type badges and tech stacks
+- **Education** - Academic background with institution details
+- **Certifications** - Professional certifications with provider logos
+- **Testimonials** - LinkedIn recommendations with author info
+- **Contact** - Multiple contact methods with CTA buttons
+
+### Technical Highlights
+- 3D card tilt effects on hover (Projects section)
+- Intersection Observer-based scroll animations
+- Mobile-optimized carousels using Swiper
+- Memory leak prevention with proper cleanup
+- Comprehensive test coverage (425+ tests)
 
 ## Tech Stack
 
@@ -98,16 +117,53 @@ npm run test:all
 ```
 ├── assets/
 │   └── css/
-│       └── tailwind.css      # Global styles and CSS variables
+│       └── tailwind.css        # Global styles, animations, CSS variables
 ├── components/
-│   ├── layout/               # Header, Footer
-│   ├── resume/               # Resume sections (Hero, Skills, Experience, etc.)
-│   └── ui/                   # Reusable UI components
-├── composables/              # Vue composables
-├── pages/                    # Nuxt pages
-├── public/                   # Static assets
-├── server/                   # Server API routes
-└── nuxt.config.ts            # Nuxt configuration
+│   ├── layout/                 # Header, Footer
+│   ├── resume/                 # Resume sections
+│   │   ├── Hero.vue            # Main hero with typewriter effect
+│   │   ├── Summary.vue         # Professional pillars
+│   │   ├── Skills.vue          # Skills with core stack highlight
+│   │   ├── Experience.vue      # Work experience timeline
+│   │   ├── Projects.vue        # Projects with 3D tilt effect
+│   │   ├── Education.vue       # Education section
+│   │   ├── Certifications.vue  # Certifications grid
+│   │   ├── Testimonials.vue    # LinkedIn testimonials
+│   │   └── Contact.vue         # Contact methods
+│   └── ui/                     # Reusable UI components (Button, Card, Badge, etc.)
+├── composables/                # Vue composables (useScrollAnimation, useTypewriter)
+├── data/
+│   └── resume.ts               # Resume data (experience, skills, projects, etc.)
+├── pages/                      # Nuxt pages
+├── public/                     # Static assets (images, icons, fonts)
+├── server/
+│   ├── api/                    # API routes (CV download)
+│   └── assets/                 # Server-side assets
+├── tests/
+│   ├── components/             # Component unit tests
+│   │   ├── layout/             # Header, Footer tests
+│   │   ├── resume/             # Resume section tests
+│   │   └── ui/                 # UI component tests
+│   ├── composables/            # Composable tests
+│   ├── pages/                  # Page tests
+│   └── server/                 # API endpoint tests
+├── types/
+│   └── resume.ts               # TypeScript interfaces
+└── nuxt.config.ts              # Nuxt configuration
+```
+
+## Test Coverage
+
+The project maintains comprehensive test coverage with 425+ unit tests covering:
+
+- **Components**: All resume sections, UI components, layout components
+- **Composables**: useScrollAnimation, useTypewriter
+- **API Endpoints**: CV download with password validation
+- **Edge Cases**: Empty arrays, missing props, error states
+
+```bash
+# Run tests with coverage report
+npm run test:coverage
 ```
 
 ## License

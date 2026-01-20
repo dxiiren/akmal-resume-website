@@ -10,6 +10,7 @@ const navItems = [
   { label: 'Experience', href: '#experience' },
   { label: 'Projects', href: '#projects' },
   { label: 'Education', href: '#education' },
+  { label: 'Testimonials', href: '#testimonials' },
   { label: 'Contact', href: '#contact' },
 ]
 
@@ -24,8 +25,9 @@ const scrollToSection = (href: string) => {
   <header class="sticky top-0 z-50 w-full border-b border-primary/10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
     <div class="container mx-auto flex h-16 items-center justify-between px-4">
       <!-- Logo -->
-      <a href="/" class="flex items-center gap-2 text-xl font-bold text-primary group">
-        <img src="/favicon-32x32.png" alt="Akmal Suhaimi Logo" class="h-8 w-8 transition-transform group-hover:rotate-12" />
+      <a href="/" class="flex items-center gap-2 text-xl font-bold text-primary group" aria-label="Akmal Suhaimi - Home">
+        <img src="/favicon-32x32.png" alt="" class="h-8 w-8 transition-transform group-hover:rotate-12" />
+        <span class="sr-only">Akmal Suhaimi - Home</span>
       </a>
 
       <!-- Availability Status - Desktop only -->

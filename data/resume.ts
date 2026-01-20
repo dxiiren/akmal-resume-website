@@ -297,4 +297,15 @@ class AkmalSuhaimi extends BackendEngineer
       logo: '/images/logos/udemy.png',
     },
   ],
+
+  testimonials: [
+    {
+      quote: "Akmal is one of my student in K-Youth Python programming bootcamp. He has that ease-to-work-with kind of developer trait as he practices satisfactory developer best practices, maintaining good script documentation and he really understand the workflow of his work. Not only that, personality wise he understands the point of view of his stakeholders in delivering solutions, that kind of a developer who understand a problem technical-wise and also within business context. I would recommend him to any hiring employers out there as he has shown remarkable competencies in Python, web application and data analysis skills. Wishing him the very best in his career journey!",
+      author: 'Zahid Hamidi, PMP',
+      role: 'Subsurface Data Scientist | Digital Energy Mentor',
+      relationship: "was Akmal's teacher",
+      date: 'October 5, 2023',
+      linkedinUrl: 'https://www.linkedin.com/in/zahid-hamidi',
+    },
+  ],
 }

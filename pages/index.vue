@@ -7,6 +7,7 @@ import Experience from '~/components/resume/Experience.vue'
 import Projects from '~/components/resume/Projects.vue'
 import Education from '~/components/resume/Education.vue'
 import Certifications from '~/components/resume/Certifications.vue'
+import Testimonials from '~/components/resume/Testimonials.vue'
 import Contact from '~/components/resume/Contact.vue'
 import Header from '~/components/layout/Header.vue'
 import Footer from '~/components/layout/Footer.vue'
@@ -158,6 +159,7 @@ useHead({
       <Projects :projects="resumeData.projects" />
       <Education :education="resumeData.education" />
       <Certifications :certifications="resumeData.certifications" />
+      <Testimonials :testimonials="resumeData.testimonials || []" />
       <Contact :contact="resumeData.contact" />
     </main>
     <Footer

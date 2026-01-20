@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
-import { Mail, Phone, MapPin, Linkedin, Globe, Github, MessageCircle, Terminal } from 'lucide-vue-next'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { Mail, Phone, MapPin, Linkedin, Globe, Github, MessageCircle, Terminal, Calendar } from 'lucide-vue-next'
 import type { ContactInfo, Stat, TerminalSnippet } from '~/types/resume'
 import { Button } from '~/components/ui/button'
+import { Badge } from '~/components/ui/badge'
 import { useTypewriter } from '~/composables/useTypewriter'
 
 const props = defineProps<{
@@ -19,6 +20,9 @@ const isLoaded = ref(false)
 const showContent = ref(false)
 const currentRoleIndex = ref(0)
 
+// Store interval ID for cleanup
+let roleIntervalId: ReturnType<typeof setInterval> | null = null
+
 // Rotating roles typewriter effect
 const currentRole = computed(() => props.roles?.[currentRoleIndex.value] || props.contact.title)
 
@@ -30,9 +34,16 @@ onMounted(() => {
 
   // Rotate roles every 3 seconds
   if (props.roles && props.roles.length > 1) {
-    setInterval(() => {
+    roleIntervalId = setInterval(() => {
       currentRoleIndex.value = (currentRoleIndex.value + 1) % props.roles!.length
     }, 3000)
+  }
+})
+
+// Cleanup interval on unmount to prevent memory leak
+onUnmounted(() => {
+  if (roleIntervalId) {
+    clearInterval(roleIntervalId)
   }
 })
 
@@ -113,6 +124,15 @@ onMounted(() => {
             {{ tagline }}
           </p>
 
+          <!-- Value Proposition -->
+          <p
+            class="mb-6 text-base lg:text-lg text-muted-foreground max-w-xl"
+            :class="showContent ? 'animate-fade-in-up animation-delay-400' : 'opacity-0'"
+          >
+            I help companies <span class="text-primary font-semibold">scale their backend systems</span>
+            with clean, tested, production-ready code.
+          </p>
+
           <!-- Rotating Role Typewriter -->
           <div
             class="relative mb-6 inline-block"
@@ -170,70 +190,91 @@ onMounted(() => {
 
           <!-- CTA Buttons with animations -->
           <div
-            class="flex flex-wrap justify-center gap-3 lg:justify-start"
+            class="flex flex-col gap-4"
             :class="showContent ? 'animate-fade-in-up animation-delay-700' : 'opacity-0'"
           >
-            <!-- Primary CTA - Email -->
-            <Button
-              as="a"
-              :href="`mailto:${contact.email}`"
-              size="lg"
-              class="shimmer-effect group"
-            >
-              <Mail class="mr-2 h-4 w-4 transition-transform group-hover:scale-110" />
-              Get in Touch
-            </Button>
+            <!-- Primary CTAs Row -->
+            <div class="flex flex-wrap justify-center gap-3 lg:justify-start">
+              <!-- Primary CTA - Email -->
+              <Button
+                as="a"
+                :href="`mailto:${contact.email}`"
+                size="lg"
+                class="shimmer-effect group"
+              >
+                <Mail class="mr-2 h-4 w-4 transition-transform group-hover:scale-110" />
+                Let's Talk
+              </Button>
 
-            <!-- WhatsApp -->
-            <Button
-              as="a"
-              :href="contact.whatsapp"
-              target="_blank"
-              size="lg"
-              class="bg-green-600 hover:bg-green-700 shimmer-effect group"
-            >
-              <MessageCircle class="mr-2 h-4 w-4 transition-transform group-hover:scale-110 group-hover:rotate-12" />
-              WhatsApp
-            </Button>
+              <!-- Schedule a Call - Disabled Coming Soon -->
+              <Button
+                disabled
+                size="lg"
+                variant="outline"
+                class="relative group cursor-not-allowed opacity-70"
+              >
+                <Calendar class="mr-2 h-4 w-4" />
+                Schedule a Call
+                <Badge class="absolute -top-2 -right-2 text-xs bg-amber-500 text-white border-amber-500 px-1.5 py-0.5">
+                  Soon
+                </Badge>
+              </Button>
+            </div>
 
-            <!-- LinkedIn -->
-            <Button
-              as="a"
-              :href="contact.linkedin"
-              target="_blank"
-              variant="outline"
-              size="lg"
-              class="group"
-            >
-              <Linkedin class="mr-2 h-4 w-4 transition-transform group-hover:scale-110" />
-              LinkedIn
-            </Button>
+            <!-- Social Icons Row -->
+            <div class="flex flex-wrap justify-center gap-2 lg:justify-start">
+              <!-- LinkedIn -->
+              <Button
+                as="a"
+                :href="contact.linkedin"
+                target="_blank"
+                variant="outline"
+                size="icon"
+                class="group h-10 w-10 rounded-full"
+              >
+                <Linkedin class="h-4 w-4 transition-transform group-hover:scale-110" />
+                <span class="sr-only">LinkedIn</span>
+              </Button>
 
-            <!-- GitHub -->
-            <Button
-              as="a"
-              :href="contact.github"
-              target="_blank"
-              variant="outline"
-              size="lg"
-              class="group"
-            >
-              <Github class="mr-2 h-4 w-4 transition-transform group-hover:scale-110 group-hover:rotate-12" />
-              GitHub
-            </Button>
+              <!-- GitHub -->
+              <Button
+                as="a"
+                :href="contact.github"
+                target="_blank"
+                variant="outline"
+                size="icon"
+                class="group h-10 w-10 rounded-full"
+              >
+                <Github class="h-4 w-4 transition-transform group-hover:scale-110 group-hover:rotate-12" />
+                <span class="sr-only">GitHub</span>
+              </Button>
 
-            <!-- Website -->
-            <Button
-              as="a"
-              :href="contact.website"
-              target="_blank"
-              variant="ghost"
-              size="lg"
-              class="group"
-            >
-              <Globe class="mr-2 h-4 w-4 transition-transform group-hover:scale-110" />
-              Website
-            </Button>
+              <!-- WhatsApp -->
+              <Button
+                as="a"
+                :href="contact.whatsapp"
+                target="_blank"
+                variant="outline"
+                size="icon"
+                class="group h-10 w-10 rounded-full border-green-500/50 hover:bg-green-500/10 hover:border-green-500"
+              >
+                <MessageCircle class="h-4 w-4 text-green-600 transition-transform group-hover:scale-110 group-hover:rotate-12" />
+                <span class="sr-only">WhatsApp</span>
+              </Button>
+
+              <!-- Website -->
+              <Button
+                as="a"
+                :href="contact.website"
+                target="_blank"
+                variant="outline"
+                size="icon"
+                class="group h-10 w-10 rounded-full"
+              >
+                <Globe class="h-4 w-4 transition-transform group-hover:scale-110" />
+                <span class="sr-only">Website</span>
+              </Button>
+            </div>
           </div>
         </div>
       </div>

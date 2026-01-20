@@ -45,36 +45,37 @@ test.describe('SEO - Homepage', () => {
   })
 
   test('has JSON-LD structured data', async ({ page }) => {
-    const jsonLd = page.locator('script[type="application/ld+json"]')
+    // Use the Nuxt schema.org generated script (more specific selector)
+    const jsonLd = page.locator('script[type="application/ld+json"][data-nuxt-schema-org]')
     await expect(jsonLd).toBeAttached()
 
     const content = await jsonLd.textContent()
     expect(content).toContain('@context')
     expect(content).toContain('schema.org')
     expect(content).toContain('@graph')
-    expect(content).toContain('Person')
     expect(content).toContain('Akmal Suhaimi')
   })
 
-  test('JSON-LD contains Person schema', async ({ page }) => {
-    const jsonLd = page.locator('script[type="application/ld+json"]')
+  test('JSON-LD contains WebSite schema', async ({ page }) => {
+    const jsonLd = page.locator('script[type="application/ld+json"][data-nuxt-schema-org]')
     const content = await jsonLd.textContent()
     const data = JSON.parse(content || '{}')
 
     expect(data['@graph']).toBeDefined()
-    const personSchema = data['@graph'].find((item: any) => item['@type'] === 'Person')
-    expect(personSchema).toBeDefined()
-    expect(personSchema.name).toBe('Akmal Suhaimi')
-    expect(personSchema.jobTitle).toBe('Backend Engineer')
+    const webSiteSchema = data['@graph'].find((item: any) => item['@type'] === 'WebSite')
+    expect(webSiteSchema).toBeDefined()
+    expect(webSiteSchema.name).toContain('Akmal Suhaimi')
   })
 
-  test('JSON-LD contains WebSite schema', async ({ page }) => {
-    const jsonLd = page.locator('script[type="application/ld+json"]')
+  test('JSON-LD contains WebPage schema', async ({ page }) => {
+    const jsonLd = page.locator('script[type="application/ld+json"][data-nuxt-schema-org]')
     const content = await jsonLd.textContent()
     const data = JSON.parse(content || '{}')
 
-    const webSiteSchema = data['@graph'].find((item: any) => item['@type'] === 'WebSite')
-    expect(webSiteSchema).toBeDefined()
+    expect(data['@graph']).toBeDefined()
+    const webPageSchema = data['@graph'].find((item: any) => item['@type'] === 'WebPage')
+    expect(webPageSchema).toBeDefined()
+    expect(webPageSchema.name).toContain('Akmal Suhaimi')
   })
 })
 

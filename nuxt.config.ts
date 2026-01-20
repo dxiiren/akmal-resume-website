@@ -4,7 +4,6 @@ export default defineNuxtConfig({
 
   modules: [
     '@nuxtjs/tailwindcss',
-    '@nuxt/image',
     '@nuxtjs/seo',
   ],
 
@@ -25,6 +24,7 @@ export default defineNuxtConfig({
 
   // Sitemap configuration
   sitemap: {
+    zeroRuntime: true, // Generate sitemap at build time, reduces server bundle
     exclude: ['/download'],
     defaults: {
       changefreq: 'monthly',
@@ -119,11 +119,6 @@ export default defineNuxtConfig({
   tailwindcss: {
     cssPath: '~/assets/css/tailwind.css',
     configPath: 'tailwind.config.ts',
-  },
-
-  image: {
-    quality: 80,
-    format: ['avif', 'webp', 'jpg'],
   },
 
   // Route rules for caching

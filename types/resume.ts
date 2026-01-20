@@ -77,6 +77,17 @@ export interface FunFact {
   text: string
 }
 
+export interface Testimonial {
+  quote: string
+  author: string
+  role: string
+  company?: string
+  relationship?: string
+  date?: string
+  image?: string
+  linkedinUrl?: string
+}
+
 export interface AboutMe {
   pillars: Pillar[]
   funFacts: FunFact[]
@@ -95,6 +106,7 @@ export interface Resume {
   experience: Experience[]
   projects: Project[]
   certifications: Certification[]
+  testimonials?: Testimonial[]
   // New brand identity fields
   tagline?: string
   roles?: string[]

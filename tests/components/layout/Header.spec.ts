@@ -12,9 +12,12 @@ describe('Header Component', () => {
       expect(wrapper.find('header').exists()).toBe(true)
     })
 
-    it('renders the logo with terminal icon', async () => {
+    it('renders the logo image with accessible link', async () => {
       const wrapper = await mountSuspended(Header)
-      expect(wrapper.text()).toContain('AS')
+      const logoLink = wrapper.find('a[aria-label="Akmal Suhaimi - Home"]')
+      expect(logoLink.exists()).toBe(true)
+      const logoImg = logoLink.find('img')
+      expect(logoImg.exists()).toBe(true)
     })
 
     it('renders the logo link pointing to home', async () => {
@@ -38,7 +41,7 @@ describe('Header Component', () => {
   describe('Navigation Items', () => {
     it('renders all navigation items on desktop', async () => {
       const wrapper = await mountSuspended(Header)
-      const navItems = ['About', 'Skills', 'Experience', 'Projects', 'Education', 'Contact']
+      const navItems = ['About', 'Skills', 'Experience', 'Projects', 'Education', 'Testimonials', 'Contact']
 
       navItems.forEach((item) => {
         expect(wrapper.text()).toContain(item)
@@ -47,12 +50,19 @@ describe('Header Component', () => {
 
     it('renders navigation links with correct hrefs', async () => {
       const wrapper = await mountSuspended(Header)
-      const expectedHrefs = ['#about', '#skills', '#experience', '#projects', '#education', '#contact']
+      const expectedHrefs = ['#about', '#skills', '#experience', '#projects', '#education', '#testimonials', '#contact']
 
       expectedHrefs.forEach((href) => {
         const link = wrapper.find(`a[href="${href}"]`)
         expect(link.exists()).toBe(true)
       })
+    })
+
+    it('includes Testimonials in navigation items', async () => {
+      const wrapper = await mountSuspended(Header)
+      expect(wrapper.text()).toContain('Testimonials')
+      const link = wrapper.find('a[href="#testimonials"]')
+      expect(link.exists()).toBe(true)
     })
 
     it('has desktop navigation hidden on mobile', async () => {
@@ -84,39 +94,47 @@ describe('Header Component', () => {
   describe('Mobile Menu', () => {
     it('renders mobile menu button', async () => {
       const wrapper = await mountSuspended(Header)
-      const mobileMenuButton = wrapper.find('button')
-      expect(mobileMenuButton.exists()).toBe(true)
+      // Find buttons in the mobile section
+      const buttons = wrapper.findAll('button')
+      expect(buttons.length).toBeGreaterThan(0)
     })
 
     it('mobile menu is closed by default', async () => {
       const wrapper = await mountSuspended(Header)
-      // Mobile nav should not be visible initially
-      const mobileNav = wrapper.findAll('nav').filter((nav) => nav.classes().includes('border-t'))
-      expect(mobileNav.length).toBe(0)
+      // Mobile nav should not be visible initially (uses v-if)
+      const mobileNavs = wrapper.findAll('nav')
+      // Should only have desktop nav, not mobile nav
+      expect(mobileNavs.length).toBe(1)
     })
 
     it('opens mobile menu on button click', async () => {
       const wrapper = await mountSuspended(Header)
-      const menuButton = wrapper.find('button')
+      // Find the last button which is the menu button (after ThemeToggle)
+      const buttons = wrapper.findAll('button')
+      const menuButton = buttons[buttons.length - 1]
 
       await menuButton.trigger('click')
+      await wrapper.vm.$nextTick()
 
-      // After click, mobile nav should be visible
-      const mobileNav = wrapper.find('nav.border-t')
-      expect(mobileNav.exists()).toBe(true)
+      // After click, should have 2 navs (desktop + mobile)
+      const navs = wrapper.findAll('nav')
+      expect(navs.length).toBe(2)
     })
 
     it('closes mobile menu on second button click', async () => {
       const wrapper = await mountSuspended(Header)
-      const menuButton = wrapper.find('button')
+      const buttons = wrapper.findAll('button')
+      const menuButton = buttons[buttons.length - 1]
 
       // Open menu
       await menuButton.trigger('click')
-      expect(wrapper.find('nav.border-t').exists()).toBe(true)
+      await wrapper.vm.$nextTick()
+      expect(wrapper.findAll('nav').length).toBe(2)
 
       // Close menu
       await menuButton.trigger('click')
-      expect(wrapper.find('nav.border-t').exists()).toBe(false)
+      await wrapper.vm.$nextTick()
+      expect(wrapper.findAll('nav').length).toBe(1)
     })
 
     it('renders mobile availability status', async () => {
@@ -148,23 +166,26 @@ describe('Header Component', () => {
       const wrapper = await mountSuspended(Header)
 
       // Open mobile menu
-      const menuButton = wrapper.find('button')
+      const buttons = wrapper.findAll('button')
+      const menuButton = buttons[buttons.length - 1]
       await menuButton.trigger('click')
-      expect(wrapper.find('nav.border-t').exists()).toBe(true)
+      await wrapper.vm.$nextTick()
+      expect(wrapper.findAll('nav').length).toBe(2)
 
       // Mock querySelector
       const mockElement = { scrollIntoView: vi.fn() }
       vi.spyOn(document, 'querySelector').mockReturnValue(mockElement as unknown as Element)
 
-      // Click a mobile nav link
-      const mobileNavLinks = wrapper.findAll('nav.border-t a')
+      // Click a mobile nav link (second nav is mobile)
+      const mobileNav = wrapper.findAll('nav')[1]
+      const mobileNavLinks = mobileNav.findAll('a')
       if (mobileNavLinks.length > 0) {
         await mobileNavLinks[0].trigger('click')
       }
 
       // Menu should be closed
       await wrapper.vm.$nextTick()
-      expect(wrapper.find('nav.border-t').exists()).toBe(false)
+      expect(wrapper.findAll('nav').length).toBe(1)
 
       vi.restoreAllMocks()
     })
@@ -195,21 +216,31 @@ describe('Header Component', () => {
   })
 
   describe('Terminal Branding', () => {
-    it('renders terminal cursor animation', async () => {
-      const wrapper = await mountSuspended(Header)
-      const cursor = wrapper.find('.animate-terminal-blink')
-      expect(cursor.exists()).toBe(true)
-      expect(cursor.text()).toBe('_')
-    })
-
     it('renders terminal prompt in mobile nav', async () => {
       const wrapper = await mountSuspended(Header)
 
       // Open mobile menu
-      await wrapper.find('button').trigger('click')
+      const buttons = wrapper.findAll('button')
+      const menuButton = buttons[buttons.length - 1]
+      await menuButton.trigger('click')
+      await wrapper.vm.$nextTick()
 
-      // Check for terminal prompt
+      // Check for terminal prompt in mobile nav
       expect(wrapper.text()).toContain('$')
+    })
+
+    it('has terminal styled class in mobile nav', async () => {
+      const wrapper = await mountSuspended(Header)
+
+      // Open mobile menu
+      const buttons = wrapper.findAll('button')
+      const menuButton = buttons[buttons.length - 1]
+      await menuButton.trigger('click')
+      await wrapper.vm.$nextTick()
+
+      // Check for text-terminal class
+      const html = wrapper.html()
+      expect(html).toContain('text-terminal')
     })
   })
 })
