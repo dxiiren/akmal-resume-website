@@ -32,10 +32,8 @@ const downloadCV = async () => {
       responseType: 'blob',
     })
 
-    // Create download link
-    const blob = new Blob([response as BlobPart], {
-      type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    })
+    // Create download link - response is a Blob in browser context
+    const blob = response as unknown as Blob
     const url = window.URL.createObjectURL(blob)
     const link = document.createElement('a')
     link.href = url

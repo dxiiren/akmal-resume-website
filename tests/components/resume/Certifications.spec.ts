@@ -18,7 +18,7 @@ class MockIntersectionObserver {
 
   simulateIntersection(isIntersecting: boolean) {
     this.callback(
-      [{ isIntersecting, target: document.createElement('div') } as IntersectionObserverEntry],
+      [{ isIntersecting, target: document.createElement('div') } as unknown as IntersectionObserverEntry],
       this as unknown as IntersectionObserver
     )
   }
