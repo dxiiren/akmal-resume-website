@@ -18,11 +18,12 @@ useSeoMeta({
   description: resumeData.summary,
   ogTitle: `${resumeData.contact.name} - ${resumeData.contact.title}`,
   ogDescription: resumeData.summary,
-  ogImage: '/og-image.jpg',
+  ogImage: `${resumeData.contact.website}/og-image.jpg`,
   ogUrl: resumeData.contact.website,
   twitterCard: 'summary_large_image',
   twitterTitle: `${resumeData.contact.name} - ${resumeData.contact.title}`,
   twitterDescription: resumeData.summary,
+  twitterImage: `${resumeData.contact.website}/og-image.jpg`,
 })
 
 // Enhanced Structured Data for SEO using @graph
