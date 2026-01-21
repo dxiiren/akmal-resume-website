@@ -187,6 +187,26 @@ describe('Hero Component', () => {
         vi.useRealTimers()
         clearIntervalSpy.mockRestore()
       })
+
+      it('handles decimal stat values correctly', async () => {
+        vi.useFakeTimers()
+
+        const wrapper = await mountSuspended(Hero, {
+          props: {
+            contact: mockContact,
+            stats: [{ value: '99.9', label: 'Uptime', suffix: '%' }],
+          },
+        })
+
+        // Animation: 30 increments x 50ms = 1500ms + buffer
+        await vi.advanceTimersByTimeAsync(2000)
+
+        // Should format with one decimal place
+        expect(wrapper.text()).toContain('99.9')
+        expect(wrapper.text()).toContain('%')
+
+        vi.useRealTimers()
+      })
     })
   })
 

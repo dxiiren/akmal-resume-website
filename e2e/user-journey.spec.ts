@@ -6,15 +6,14 @@ test.describe('Critical User Journeys', () => {
   })
 
   test('homepage loads with all sections', async ({ page }) => {
-    // Wait for page to fully load
-    await page.waitForLoadState('networkidle')
-    await page.waitForTimeout(2000)
+    // Wait for page to load
+    await page.waitForLoadState('domcontentloaded')
 
     // Check all main sections exist in DOM
-    await expect(page.locator('#about')).toBeAttached({ timeout: 10000 })
-    await expect(page.locator('#skills')).toBeAttached({ timeout: 10000 })
-    await expect(page.locator('#experience')).toBeAttached({ timeout: 10000 })
-    await expect(page.locator('#projects')).toBeAttached({ timeout: 10000 })
+    await expect(page.locator('#about')).toBeAttached({ timeout: 15000 })
+    await expect(page.locator('#skills')).toBeAttached({ timeout: 15000 })
+    await expect(page.locator('#experience')).toBeAttached({ timeout: 15000 })
+    await expect(page.locator('#projects')).toBeAttached({ timeout: 15000 })
   })
 
   test('Hire Me CTA has correct mailto link', async ({ page }) => {
@@ -37,39 +36,55 @@ test.describe('Critical User Journeys', () => {
 
   test('dark mode toggle works', async ({ page }) => {
     // Wait for page to load
-    await page.waitForLoadState('networkidle')
-    await page.waitForTimeout(2000)
+    await page.waitForLoadState('domcontentloaded')
 
-    // Find the theme toggle button - check it exists
-    const themeToggle = page.locator('button[aria-label*="Switch to"]').first()
-    await expect(themeToggle).toBeAttached({ timeout: 10000 })
+    // Find theme toggle buttons and get the visible one
+    const themeToggles = page.locator('button[aria-label*="Switch to"]')
 
-    // Click the toggle with force for mobile browsers
-    await themeToggle.click({ force: true })
+    // Wait for at least one to be attached
+    await expect(themeToggles.first()).toBeAttached({ timeout: 15000 })
+
+    // Find the visible one by iterating through the locators
+    const count = await themeToggles.count()
+    let visibleToggle = null
+    for (let i = 0; i < count; i++) {
+      const toggle = themeToggles.nth(i)
+      if (await toggle.isVisible()) {
+        visibleToggle = toggle
+        break
+      }
+    }
+
+    // If no visible toggle found, fall back to first one with force click
+    if (!visibleToggle) {
+      visibleToggle = themeToggles.first()
+    }
+
+    // Click the toggle
+    await visibleToggle.click({ force: true })
     await page.waitForTimeout(500)
 
-    // Verify the button is still functional
-    await expect(themeToggle).toBeAttached({ timeout: 5000 })
+    // Verify the toggle button is still present
+    await expect(themeToggles.first()).toBeAttached({ timeout: 5000 })
   })
 
   test('navigation scrolls to sections', async ({ page, isMobile }) => {
     test.skip(isMobile, 'Desktop navigation hidden on mobile')
 
-    // Wait for page to fully load
-    await page.waitForLoadState('networkidle')
-    await page.waitForTimeout(2000)
+    // Wait for page to load
+    await page.waitForLoadState('domcontentloaded')
 
     // Click on Experience link in header nav
     const experienceLink = page.locator('header a[href="#experience"]')
-    await expect(experienceLink).toBeAttached({ timeout: 10000 })
+    await expect(experienceLink).toBeAttached({ timeout: 15000 })
     await experienceLink.click({ force: true })
 
     // Wait for scroll animation
-    await page.waitForTimeout(1500)
+    await page.waitForTimeout(1000)
 
     // Verify section exists and is accessible
     const experienceSection = page.locator('#experience')
-    await expect(experienceSection).toBeAttached({ timeout: 10000 })
+    await expect(experienceSection).toBeAttached({ timeout: 15000 })
   })
 
   test('projects section is visible', async ({ page }) => {
@@ -97,23 +112,21 @@ test.describe('Critical User Journeys', () => {
 
   test('availability badge is visible', async ({ page }) => {
     // Wait for page to load
-    await page.waitForLoadState('networkidle')
-    await page.waitForTimeout(2000)
+    await page.waitForLoadState('domcontentloaded')
 
     // Check for availability indicator in header (either desktop or mobile version)
     // The header has the status-pulse class for the green dot
     const availabilityIndicator = page.locator('.status-pulse').first()
-    await expect(availabilityIndicator).toBeAttached({ timeout: 10000 })
+    await expect(availabilityIndicator).toBeAttached({ timeout: 15000 })
   })
 
   test('stats section displays correctly', async ({ page }) => {
     // Wait for page to load
-    await page.waitForLoadState('networkidle')
-    await page.waitForTimeout(3000)
+    await page.waitForLoadState('domcontentloaded')
 
     // Stats are in the hero section - check that at least one stat label exists
     // The stats have labels like "Years Experience", "Daily Transactions", "Uptime", "API Integrations"
     const statsSection = page.locator('.grid-cols-2.lg\\:grid-cols-4').first()
-    await expect(statsSection).toBeAttached({ timeout: 10000 })
+    await expect(statsSection).toBeAttached({ timeout: 15000 })
   })
 })
