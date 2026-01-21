@@ -136,6 +136,46 @@ describe('Projects Component', () => {
     })
   })
 
+  describe('Type Config Fallback', () => {
+    it('applies default config when type is undefined', async () => {
+      const projectWithoutType: Project[] = [
+        {
+          name: 'No Type Project',
+          year: '2024',
+          technologies: ['TypeScript'],
+          achievements: ['Achievement 1'],
+          // type intentionally omitted
+        },
+      ]
+
+      const wrapper = await mountSuspended(Projects, {
+        props: { projects: projectWithoutType },
+      })
+
+      expect(wrapper.text()).toContain('No Type Project')
+      expect(wrapper.html()).toContain('text-primary')
+    })
+
+    it('applies default config when type is unknown value', async () => {
+      const projectWithUnknownType: Project[] = [
+        {
+          name: 'Unknown Type Project',
+          year: '2024',
+          technologies: ['Go'],
+          achievements: ['Built something'],
+          type: 'UnknownType' as Project['type'],
+        },
+      ]
+
+      const wrapper = await mountSuspended(Projects, {
+        props: { projects: projectWithUnknownType },
+      })
+
+      expect(wrapper.text()).toContain('Unknown Type Project')
+      expect(wrapper.html()).toContain('text-primary')
+    })
+  })
+
   describe('Impact Metric', () => {
     it('renders impact metric when provided', async () => {
       const wrapper = await mountSuspended(Projects, {

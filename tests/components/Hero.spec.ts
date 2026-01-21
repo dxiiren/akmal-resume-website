@@ -114,6 +114,47 @@ describe('Hero Component', () => {
       // Stats should be rendering (may be in animation)
       expect(wrapper.exists()).toBe(true)
     })
+
+    describe('Counter Animation Completion', () => {
+      it('completes counter animation and calls clearInterval', async () => {
+        vi.useFakeTimers()
+        const clearIntervalSpy = vi.spyOn(global, 'clearInterval')
+
+        const wrapper = await mountSuspended(Hero, {
+          props: {
+            contact: mockContact,
+            stats: [{ value: '4', label: 'Years', suffix: '+' }],
+          },
+        })
+
+        // Animation: 30 increments x 50ms = 1500ms + buffer
+        await vi.advanceTimersByTimeAsync(2000)
+
+        expect(clearIntervalSpy).toHaveBeenCalled()
+        expect(wrapper.text()).toContain('4')
+
+        vi.useRealTimers()
+        clearIntervalSpy.mockRestore()
+      })
+
+      it('completes animation for multiple stats', async () => {
+        vi.useFakeTimers()
+        const clearIntervalSpy = vi.spyOn(global, 'clearInterval')
+
+        const wrapper = await mountSuspended(Hero, {
+          props: { contact: mockContact, stats: mockStats },
+        })
+
+        // Second stat has 200ms delay + 1500ms animation
+        await vi.advanceTimersByTimeAsync(2500)
+
+        // clearInterval called for each stat animation
+        expect(clearIntervalSpy).toHaveBeenCalledTimes(2)
+
+        vi.useRealTimers()
+        clearIntervalSpy.mockRestore()
+      })
+    })
   })
 
   describe('Roles Handling', () => {

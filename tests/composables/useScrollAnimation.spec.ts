@@ -232,4 +232,44 @@ describe('useScrollAnimation composable', () => {
     // No observer should be created for null ref
     expect(MockIntersectionObserver.instances[0]?.observedElements.length ?? 0).toBe(0)
   })
+
+  describe('onUnmounted cleanup verification', () => {
+    it('calls unobserve on target element when component unmounts', async () => {
+      // Create a persistent element outside Vue's lifecycle
+      const persistentElement = document.createElement('div')
+      document.body.appendChild(persistentElement)
+
+      // Create a ref that holds this persistent element
+      const persistentRef = ref<HTMLElement | null>(persistentElement)
+
+      const TestComponentWithPersistentRef = defineComponent({
+        setup() {
+          // Pass the persistent ref to the composable
+          const { isVisible } = useScrollAnimation(persistentRef, { once: false })
+          return { isVisible }
+        },
+        render() {
+          return h('div', { class: 'wrapper' })
+        },
+      })
+
+      const wrapper = mount(TestComponentWithPersistentRef)
+
+      const observer = MockIntersectionObserver.instances[0]
+      expect(observer).toBeDefined()
+
+      // Verify element is being observed
+      expect(observer.observedElements.length).toBe(1)
+      expect(observer.observedElements[0]).toBe(persistentElement)
+
+      wrapper.unmount()
+
+      // Since persistentRef.value is still the persistentElement (not cleared by Vue),
+      // onUnmounted should call observer.unobserve(persistentElement)
+      expect(observer.observedElements.length).toBe(0)
+
+      // Cleanup
+      document.body.removeChild(persistentElement)
+    })
+  })
 })
