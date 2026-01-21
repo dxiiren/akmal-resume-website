@@ -27,6 +27,8 @@ test.describe('Download Page', () => {
   test('password input accepts text', async ({ page }) => {
     // Enter password in the input
     const passwordInput = page.locator('input[type="password"]')
+    await expect(passwordInput).toBeVisible()
+    await passwordInput.click()
     await passwordInput.fill('testpassword')
 
     // Verify the input has the value
