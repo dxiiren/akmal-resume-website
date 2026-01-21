@@ -1,5 +1,11 @@
 # Akmal Suhaimi - Resume Website
 
+![Coverage](https://img.shields.io/badge/coverage-99%25-brightgreen)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
+![Vue](https://img.shields.io/badge/Vue-3.5-4FC08D)
+![Nuxt](https://img.shields.io/badge/Nuxt-3.14-00DC82)
+![License](https://img.shields.io/badge/license-MIT-green)
+
 A modern, responsive resume/portfolio website built with Nuxt 3, Vue 3, and Tailwind CSS. Features a terminal-inspired design with smooth animations and comprehensive test coverage.
 
 ## Live Demo

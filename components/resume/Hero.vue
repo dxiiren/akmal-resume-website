@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { ref, onMounted, onUnmounted, computed, watch } from 'vue'
 import { Mail, Phone, MapPin, Linkedin, Globe, Github, MessageCircle, Terminal, Calendar } from 'lucide-vue-next'
 import type { ContactInfo, Stat, TerminalSnippet } from '~/types/resume'
 import { Button } from '~/components/ui/button'
 import { Badge } from '~/components/ui/badge'
 import { useTypewriter } from '~/composables/useTypewriter'
+import { useScrollAnimation } from '~/composables/useScrollAnimation'
 
 const props = defineProps<{
   contact: ContactInfo
@@ -19,6 +20,11 @@ const { displayText, showCursor } = useTypewriter(props.contact.name, { delay: 1
 const isLoaded = ref(false)
 const showContent = ref(false)
 const currentRoleIndex = ref(0)
+const statsRef = ref<HTMLElement | null>(null)
+const statsAnimated = ref(false)
+
+// Use scroll animation for stats
+const { isVisible: statsVisible } = useScrollAnimation(statsRef, { threshold: 0.3 })
 
 // Store interval ID for cleanup
 let roleIntervalId: ReturnType<typeof setInterval> | null = null
@@ -68,12 +74,16 @@ const animateCounter = (index: number, targetValue: string) => {
   }, 50)
 }
 
-onMounted(() => {
-  props.stats?.forEach((stat, index) => {
-    setTimeout(() => {
-      animateCounter(index, stat.value)
-    }, index * 200)
-  })
+// Trigger stats animation when section becomes visible
+watch(statsVisible, (visible) => {
+  if (visible && !statsAnimated.value) {
+    statsAnimated.value = true
+    props.stats?.forEach((stat, index) => {
+      setTimeout(() => {
+        animateCounter(index, stat.value)
+      }, index * 200)
+    })
+  }
 })
 </script>
 
@@ -118,10 +128,18 @@ onMounted(() => {
           <!-- Bold Tagline with neon glow -->
           <p
             v-if="tagline"
-            class="mb-4 text-xl lg:text-2xl font-bold neon-glow"
+            class="mb-2 text-xl lg:text-2xl font-bold neon-glow"
             :class="showContent ? 'animate-fade-in-up animation-delay-300' : 'opacity-0'"
           >
             {{ tagline }}
+          </p>
+
+          <!-- Positioning Statement -->
+          <p
+            class="mb-4 text-sm lg:text-base text-primary font-medium"
+            :class="showContent ? 'animate-fade-in-up animation-delay-350' : 'opacity-0'"
+          >
+            The backend engineer who ships with 99% test coverage
           </p>
 
           <!-- Value Proposition -->
@@ -151,6 +169,7 @@ onMounted(() => {
           <!-- Stats Grid -->
           <div
             v-if="stats && stats.length > 0"
+            ref="statsRef"
             class="mb-8 grid grid-cols-2 gap-4 lg:grid-cols-4"
             :class="showContent ? 'animate-fade-in-up animation-delay-500' : 'opacity-0'"
           >
@@ -203,7 +222,20 @@ onMounted(() => {
                 class="shimmer-effect group"
               >
                 <Mail class="mr-2 h-4 w-4 transition-transform group-hover:scale-110" />
-                Let's Talk
+                Hire Me
+              </Button>
+
+              <!-- WhatsApp CTA - More prominent on desktop -->
+              <Button
+                as="a"
+                :href="contact.whatsapp"
+                target="_blank"
+                size="lg"
+                variant="outline"
+                class="group border-green-500/50 hover:bg-green-500/10 hover:border-green-500"
+              >
+                <MessageCircle class="mr-2 h-4 w-4 text-green-600 transition-transform group-hover:scale-110" />
+                <span class="text-green-600">WhatsApp Me</span>
               </Button>
 
               <!-- Schedule a Call - Disabled Coming Soon -->
@@ -220,6 +252,11 @@ onMounted(() => {
                 </Badge>
               </Button>
             </div>
+
+            <!-- Response time subtitle -->
+            <p class="text-xs text-muted-foreground text-center lg:text-left">
+              Usually respond within 24 hours
+            </p>
 
             <!-- Social Icons Row -->
             <div class="flex flex-wrap justify-center gap-2 lg:justify-start">
@@ -247,19 +284,6 @@ onMounted(() => {
               >
                 <Github class="h-4 w-4 transition-transform group-hover:scale-110 group-hover:rotate-12" />
                 <span class="sr-only">GitHub</span>
-              </Button>
-
-              <!-- WhatsApp -->
-              <Button
-                as="a"
-                :href="contact.whatsapp"
-                target="_blank"
-                variant="outline"
-                size="icon"
-                class="group h-10 w-10 rounded-full border-green-500/50 hover:bg-green-500/10 hover:border-green-500"
-              >
-                <MessageCircle class="h-4 w-4 text-green-600 transition-transform group-hover:scale-110 group-hover:rotate-12" />
-                <span class="sr-only">WhatsApp</span>
               </Button>
 
               <!-- Website -->

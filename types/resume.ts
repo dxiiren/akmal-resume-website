@@ -41,6 +41,17 @@ export interface Experience {
   logo?: string
 }
 
+export interface ProjectCaseStudy {
+  problem: string
+  approach: string
+  solution: string
+  results: string[]
+  codeSnippet?: {
+    language: string
+    code: string
+  }
+}
+
 export interface Project {
   name: string
   year: string
@@ -49,6 +60,8 @@ export interface Project {
   type?: 'Integration' | 'Platform' | 'System'
   impactMetric?: string
   link?: string
+  caseStudy?: ProjectCaseStudy
+  featured?: boolean
 }
 
 export interface Certification {

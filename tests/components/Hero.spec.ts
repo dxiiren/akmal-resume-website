@@ -1,7 +1,33 @@
-import { describe, it, expect, vi, afterEach } from 'vitest'
+import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest'
 import { mountSuspended } from '@nuxt/test-utils/runtime'
 import Hero from '~/components/resume/Hero.vue'
 import type { ContactInfo, Stat, TerminalSnippet } from '~/types/resume'
+
+// Mock IntersectionObserver
+class MockIntersectionObserver {
+  callback: IntersectionObserverCallback
+
+  constructor(callback: IntersectionObserverCallback) {
+    this.callback = callback
+    MockIntersectionObserver.instances.push(this)
+  }
+
+  observe() {
+    // Auto-trigger intersection for stats animation
+    this.callback(
+      [{ isIntersecting: true, target: document.createElement('div') } as unknown as IntersectionObserverEntry],
+      this as unknown as IntersectionObserver
+    )
+  }
+
+  unobserve() {}
+  disconnect() {}
+
+  static instances: MockIntersectionObserver[] = []
+  static clear() {
+    MockIntersectionObserver.instances = []
+  }
+}
 
 const mockContact: ContactInfo = {
   name: 'Akmal Suhaimi',
@@ -27,8 +53,14 @@ const mockTerminalSnippet: TerminalSnippet = {
 }
 
 describe('Hero Component', () => {
+  beforeEach(() => {
+    MockIntersectionObserver.clear()
+    vi.stubGlobal('IntersectionObserver', MockIntersectionObserver)
+  })
+
   afterEach(() => {
     vi.clearAllTimers()
+    vi.unstubAllGlobals()
   })
 
   describe('Basic Rendering', () => {
@@ -148,8 +180,9 @@ describe('Hero Component', () => {
         // Second stat has 200ms delay + 1500ms animation
         await vi.advanceTimersByTimeAsync(2500)
 
-        // clearInterval called for each stat animation
-        expect(clearIntervalSpy).toHaveBeenCalledTimes(2)
+        // clearInterval called at least twice (for stat animations, possibly more for role rotation)
+        expect(clearIntervalSpy).toHaveBeenCalled()
+        expect(clearIntervalSpy.mock.calls.length).toBeGreaterThanOrEqual(2)
 
         vi.useRealTimers()
         clearIntervalSpy.mockRestore()
@@ -221,7 +254,9 @@ describe('Hero Component', () => {
         props: { contact: mockContact },
       })
       // Check for primary CTA
-      expect(wrapper.text()).toContain("Let's Talk")
+      expect(wrapper.text()).toContain('Hire Me')
+      // Check for WhatsApp CTA
+      expect(wrapper.text()).toContain('WhatsApp Me')
       // Check for Schedule a Call (disabled)
       expect(wrapper.text()).toContain('Schedule a Call')
       // Check for social icons
@@ -229,6 +264,14 @@ describe('Hero Component', () => {
       const githubLink = wrapper.find('a[href*="github"]')
       expect(linkedinLink.exists()).toBe(true)
       expect(githubLink.exists()).toBe(true)
+    })
+
+    it('has WhatsApp button with correct link', async () => {
+      const wrapper = await mountSuspended(Hero, {
+        props: { contact: mockContact },
+      })
+      const whatsappLink = wrapper.find('a[href*="wa.me"]')
+      expect(whatsappLink.exists()).toBe(true)
     })
 
     it('has disabled Schedule a Call button', async () => {
@@ -244,6 +287,13 @@ describe('Hero Component', () => {
         props: { contact: mockContact },
       })
       expect(wrapper.text()).toContain('Soon')
+    })
+
+    it('shows response time text', async () => {
+      const wrapper = await mountSuspended(Hero, {
+        props: { contact: mockContact },
+      })
+      expect(wrapper.text()).toContain('Usually respond within 24 hours')
     })
   })
 

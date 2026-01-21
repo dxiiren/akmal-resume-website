@@ -58,7 +58,7 @@ class AkmalSuhaimi extends BackendEngineer
       {
         title: 'The Builder',
         icon: 'Hammer',
-        description: 'I turn complex requirements into clean, maintainable systems. From database schemas to API architectures, I craft solutions that scale.',
+        description: 'I turn complex requirements into clean, maintainable systems. From database schemas to API architectures, I craft solutions that scale—all backed by 85%+ test coverage.',
       },
       {
         title: 'The Problem Solver',
@@ -79,7 +79,7 @@ class AkmalSuhaimi extends BackendEngineer
     ],
   },
 
-  summary: 'Backend Engineer with 4+ years of experience designing, integrating, and maintaining production-grade backend systems, with a strong focus on system architecture, data consistency, and third-party integrations. Proven track record delivering scalable solutions involving microservices, complex state synchronization, and high-volume transaction workflows in e-commerce and business platforms. Experienced in PHP (Laravel), MySQL, and cloud-based environments, with hands-on ownership of backend design, performance optimization, and system reliability.',
+  summary: 'I reduced a 95% data mismatch problem to near-zero at YoPrint and optimized queries from 1+ minute to under 2 seconds at Biztory. Backend Engineer with 4+ years building production systems that handle 50K+ daily transactions at 99.9% uptime.',
 
   education: [
     {
