@@ -8,7 +8,7 @@ export const resumeData: Resume = {
     phone: '(+60) 19-535-7250',
     email: 'mhdakmal875@gmail.com',
     linkedin: 'https://www.linkedin.com/in/akmal-suhaimi',
-    website: 'https://akmalsuhaimi.com',
+    website: 'https://www.akmalsuhaimi.com',
     image: '/images/profile.jpg',
     github: 'https://github.com/dxiiren',
     whatsapp: 'https://wa.me/60195357250?text=Hi%20Akmal%20!',

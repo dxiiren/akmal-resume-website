@@ -1,0 +1,42 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run dev:*)",
+      "Bash(npm view:*)",
+      "Bash(npm install:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push)",
+      "WebFetch(domain:innovative.edu.my)",
+      "WebFetch(domain:www.uitm.edu.my)",
+      "WebSearch",
+      "WebFetch(domain:brandslogos.com)",
+      "WebFetch(domain:1000logos.net)",
+      "WebFetch(domain:my.linkedin.com)",
+      "WebFetch(domain:discover.educationmalaysia.gov.my)",
+      "WebFetch(domain:www.yoprint.com)",
+      "WebFetch(domain:biztory.com.my)",
+      "WebFetch(domain:eanlabel.com.my)",
+      "WebFetch(domain:appvolusi.com)",
+      "WebFetch(domain:www.linkedin.com)",
+      "WebFetch(domain:www.easystore.co)",
+      "Bash(ls -la \"C:\\\\Users\\\\User\\\\Desktop\\\\code\\\\akmal-resume-website\\\\assets\\\\css\"\" 2>/dev/null || echo \"CSS directory not found \")",
+      "Bash(curl:*)",
+      "WebFetch(domain:brandfetch.com)",
+      "WebFetch(domain:content.excelerate.asia)",
+      "Bash(cd:*)",
+      "Bash(npm run test:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run test:coverage:*)",
+      "Bash(npm run test:e2e:*)",
+      "Bash(wc:*)",
+      "Bash(npm ls:*)",
+      "Bash(npm rebuild:*)",
+      "Bash(npx playwright install)",
+      "Bash(findstr:*)",
+      "Bash(npx playwright test:*)",
+      "Bash(npx nuxi typecheck:*)",
+      "Bash(git check-ignore:*)"
+    ]
+  }
+}
