@@ -9,6 +9,7 @@ export interface ContactInfo {
   image: string
   github: string
   whatsapp: string
+  calendly: string
 }
 
 export interface Education {

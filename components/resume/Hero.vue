@@ -3,7 +3,6 @@ import { ref, onMounted, onUnmounted, computed, watch } from 'vue'
 import { Mail, Phone, MapPin, Linkedin, Globe, Github, MessageCircle, Terminal, Calendar } from 'lucide-vue-next'
 import type { ContactInfo, Stat, TerminalSnippet } from '~/types/resume'
 import { Button } from '~/components/ui/button'
-import { Badge } from '~/components/ui/badge'
 import { useTypewriter } from '~/composables/useTypewriter'
 import { useScrollAnimation } from '~/composables/useScrollAnimation'
 
@@ -238,18 +237,18 @@ watch(statsVisible, (visible) => {
                 <span class="text-green-600">WhatsApp Me</span>
               </Button>
 
-              <!-- Schedule a Call - Disabled Coming Soon -->
+              <!-- Schedule a Call - Calendly -->
               <Button
-                disabled
+                as="a"
+                :href="contact.calendly"
+                target="_blank"
+                rel="noopener noreferrer"
                 size="lg"
                 variant="outline"
-                class="relative group cursor-not-allowed opacity-70"
+                class="group border-blue-500/50 hover:bg-blue-500/10 hover:border-blue-500"
               >
-                <Calendar class="mr-2 h-4 w-4" />
-                Schedule a Call
-                <Badge class="absolute -top-2 -right-2 text-xs bg-amber-500 text-white border-amber-500 px-1.5 py-0.5">
-                  Soon
-                </Badge>
+                <Calendar class="mr-2 h-4 w-4 text-blue-500 transition-transform group-hover:scale-110" />
+                <span class="text-blue-500">Schedule a Call</span>
               </Button>
             </div>
 

@@ -40,6 +40,7 @@ const mockContact: ContactInfo = {
   image: '/images/profile.jpg',
   github: 'https://github.com/dxiiren',
   whatsapp: 'https://wa.me/60195357250?text=Hi%20Akmal%20!',
+  calendly: 'https://calendly.com/mhdakmal875/1-to-1-meeting',
 }
 
 const mockStats: Stat[] = [
@@ -294,19 +295,15 @@ describe('Hero Component', () => {
       expect(whatsappLink.exists()).toBe(true)
     })
 
-    it('has disabled Schedule a Call button', async () => {
+    it('has Schedule a Call button with Calendly link', async () => {
       const wrapper = await mountSuspended(Hero, {
         props: { contact: mockContact },
       })
-      const disabledButton = wrapper.find('button[disabled]')
-      expect(disabledButton.exists()).toBe(true)
-    })
-
-    it('shows Coming Soon badge', async () => {
-      const wrapper = await mountSuspended(Hero, {
-        props: { contact: mockContact },
-      })
-      expect(wrapper.text()).toContain('Soon')
+      const calendlyLink = wrapper.find('a[href*="calendly"]')
+      expect(calendlyLink.exists()).toBe(true)
+      expect(calendlyLink.attributes('href')).toBe('https://calendly.com/mhdakmal875/1-to-1-meeting')
+      expect(calendlyLink.attributes('target')).toBe('_blank')
+      expect(calendlyLink.attributes('rel')).toContain('noopener')
     })
 
     it('shows response time text', async () => {

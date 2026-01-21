@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Mail, Phone, Linkedin, Globe, MapPin, Github, MessageCircle, ArrowRight } from 'lucide-vue-next'
+import { Mail, Phone, Linkedin, Globe, MapPin, Github, MessageCircle, ArrowRight, Calendar } from 'lucide-vue-next'
 import type { ContactInfo } from '~/types/resume'
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card'
 import { Button } from '~/components/ui/button'
@@ -83,6 +83,23 @@ const { isVisible } = useScrollAnimation(sectionRef)
                 <p class="font-medium transition-colors group-hover:text-green-600">Message me</p>
               </div>
               <ArrowRight class="h-4 w-4 text-green-600 opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-1" />
+            </a>
+
+            <!-- Calendly -->
+            <a
+              :href="contact.calendly"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group flex items-center gap-3 rounded-lg border p-4 transition-all duration-300 hover:bg-gradient-to-r hover:from-primary/10 hover:to-red-600/10 hover:border-primary/50"
+            >
+              <div class="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 transition-all duration-300 group-hover:scale-110 group-hover:bg-primary/20">
+                <Calendar class="h-5 w-5 text-primary" />
+              </div>
+              <div class="flex-1">
+                <p class="text-sm text-muted-foreground">Calendly</p>
+                <p class="font-medium transition-colors group-hover:text-primary">Schedule a Call</p>
+              </div>
+              <ArrowRight class="h-4 w-4 text-primary opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-1" />
             </a>
 
             <!-- LinkedIn -->

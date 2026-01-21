@@ -12,6 +12,7 @@ export const resumeData: Resume = {
     image: '/images/profile.jpg',
     github: 'https://github.com/dxiiren',
     whatsapp: 'https://wa.me/60195357250?text=Hi%20Akmal%20!',
+    calendly: 'https://calendly.com/mhdakmal875/1-to-1-meeting',
   },
 
   // Brand identity

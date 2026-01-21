@@ -14,6 +14,7 @@ const mockContact: ContactInfo = {
   image: '/images/profile.jpg',
   github: 'https://github.com/dxiiren',
   whatsapp: 'https://wa.me/60195357250?text=Hi%20Akmal%20!',
+  calendly: 'https://calendly.com/mhdakmal875/1-to-1-meeting',
 }
 
 describe('Contact Component', () => {
@@ -90,6 +91,18 @@ describe('Contact Component', () => {
       expect(wrapper.text()).toContain('Website')
       const websiteLink = wrapper.find('a[href*="akmalsuhaimi.com"]')
       expect(websiteLink.exists()).toBe(true)
+    })
+
+    it('renders Calendly contact method', async () => {
+      const wrapper = await mountSuspended(Contact, {
+        props: { contact: mockContact },
+      })
+      expect(wrapper.text()).toContain('Calendly')
+      expect(wrapper.text()).toContain('Schedule a Call')
+      const calendlyLink = wrapper.find('a[href*="calendly"]')
+      expect(calendlyLink.exists()).toBe(true)
+      expect(calendlyLink.attributes('target')).toBe('_blank')
+      expect(calendlyLink.attributes('rel')).toContain('noopener')
     })
   })
 
