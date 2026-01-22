@@ -26,7 +26,7 @@ const scrollToSection = (href: string) => {
     <div class="container mx-auto flex h-16 items-center justify-between px-4">
       <!-- Logo -->
       <a href="/" class="flex items-center gap-2 text-xl font-bold text-primary group" aria-label="Akmal Suhaimi - Home">
-        <img src="/favicon-32x32.png" alt="" class="h-8 w-8 transition-transform group-hover:rotate-12" />
+        <img src="/favicon-32x32.png" alt="" class="h-8 w-auto transition-transform group-hover:rotate-12" />
         <span class="sr-only">Akmal Suhaimi - Home</span>
       </a>
 
