@@ -4,11 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "prebuild": "node scripts/generate-cv-data.cjs",
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare",
+    "postinstall": "node scripts/generate-cv-data.cjs && nuxt prepare",
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",

@@ -18,6 +18,9 @@ logs
 .fleet
 .idea
 
+# Auto-generated files
+server/utils/cv-data.ts
+
 # Local env files
 .env
 .env.*
