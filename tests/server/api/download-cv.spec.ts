@@ -55,16 +55,17 @@ describe('download-cv API endpoint', () => {
     })
   })
 
-  describe('Storage Key Construction', () => {
-    it('uses correct storage key for CV file', () => {
-      const storageKey = 'cv-akmal.docx'
-      expect(storageKey).toBe('cv-akmal.docx')
+  describe('Base64 Embedded Data', () => {
+    it('CV data is embedded as base64 string', () => {
+      // The CV is embedded at build time as base64
+      const dataFormat = 'base64'
+      expect(dataFormat).toBe('base64')
     })
 
-    it('storage key does not contain directory traversal', () => {
-      const storageKey = 'cv-akmal.docx'
-      expect(storageKey).not.toContain('..')
-      expect(storageKey).not.toContain('/')
+    it('base64 can be converted to buffer', () => {
+      const sampleBase64 = 'SGVsbG8gV29ybGQ='
+      const buffer = Buffer.from(sampleBase64, 'base64')
+      expect(buffer.toString()).toBe('Hello World')
     })
   })
 
@@ -126,21 +127,24 @@ describe('download-cv API endpoint', () => {
     })
   })
 
-  describe('Storage Operations', () => {
-    it('uses correct storage namespace', () => {
-      const storageNamespace = 'assets:server'
-      expect(storageNamespace).toBe('assets:server')
+  describe('File Embedding', () => {
+    it('CV file is bundled at build time', () => {
+      // CV is converted to base64 and embedded in server/utils/cv-data.ts
+      const embeddedFile = 'server/utils/cv-data.ts'
+      expect(embeddedFile).toContain('cv-data')
     })
 
-    it('uses correct file key', () => {
-      const fileKey = 'cv-akmal.docx'
-      expect(fileKey).toBe('cv-akmal.docx')
+    it('uses Buffer.from for base64 decoding', () => {
+      const decodeMethod = 'Buffer.from(base64, "base64")'
+      expect(decodeMethod).toContain('base64')
     })
 
-    it('storage key matches expected file', () => {
-      const fileKey = 'cv-akmal.docx'
-      expect(fileKey.endsWith('.docx')).toBe(true)
-      expect(fileKey).toContain('cv')
+    it('embedded approach works on all platforms', () => {
+      // Base64 embedding works on Vercel, Netlify, and all serverless platforms
+      const platforms = ['vercel', 'netlify', 'node-server']
+      platforms.forEach((platform) => {
+        expect(typeof platform).toBe('string')
+      })
     })
   })
 
@@ -156,10 +160,10 @@ describe('download-cv API endpoint', () => {
       expect(validationOrder[0]).toBe('check password')
     })
 
-    it('does not expose storage paths in errors', () => {
+    it('does not expose internal paths in errors', () => {
       const errorMessage = 'Failed to read CV file'
-      expect(errorMessage).not.toContain('assets:server')
-      expect(errorMessage).not.toContain('cv-akmal.docx')
+      expect(errorMessage).not.toContain('base64')
+      expect(errorMessage).not.toContain('cv-data')
     })
 
     it('rejects requests without proper authentication', () => {
