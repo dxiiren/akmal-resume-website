@@ -24,6 +24,7 @@ const downloadCV = async () => {
 
   isLoading.value = true
   error.value = ''
+  success.value = false
 
   try {
     const response = await $fetch('/api/download-cv', {
