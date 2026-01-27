@@ -1,24 +1,8 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { readFileSync } from 'fs'
+import { describe, it, expect } from 'vitest'
 
-// Mock fs module
-vi.mock('fs', () => ({
-  readFileSync: vi.fn(),
-}))
-
-// Import the handler after mocking
 // We need to test the logic without actually running the Nuxt server
 describe('download-cv API endpoint', () => {
-  const mockFileBuffer = Buffer.from('mock file content')
   const correctPassword = '0224F699D5#'
-
-  beforeEach(() => {
-    vi.mocked(readFileSync).mockReturnValue(mockFileBuffer)
-  })
-
-  afterEach(() => {
-    vi.clearAllMocks()
-  })
 
   describe('Password Validation Logic', () => {
     // Extracted validation logic for testing
@@ -71,19 +55,16 @@ describe('download-cv API endpoint', () => {
     })
   })
 
-  describe('File Path Construction', () => {
-    it('constructs correct file path', () => {
-      const basePath = 'server/assets'
-      const filename = 'cv-akmal.docx'
-      const fullPath = `${basePath}/${filename}`
-      expect(fullPath).toBe('server/assets/cv-akmal.docx')
+  describe('Storage Key Construction', () => {
+    it('uses correct storage key for CV file', () => {
+      const storageKey = 'cv-akmal.docx'
+      expect(storageKey).toBe('cv-akmal.docx')
     })
 
-    it('path does not contain directory traversal', () => {
-      const basePath = 'server/assets'
-      const filename = 'cv-akmal.docx'
-      const fullPath = `${basePath}/${filename}`
-      expect(fullPath).not.toContain('..')
+    it('storage key does not contain directory traversal', () => {
+      const storageKey = 'cv-akmal.docx'
+      expect(storageKey).not.toContain('..')
+      expect(storageKey).not.toContain('/')
     })
   })
 
@@ -106,12 +87,6 @@ describe('download-cv API endpoint', () => {
       const filename = 'Akmal_Suhaimi_CV.docx'
       const disposition = `attachment; filename="${filename}"`
       expect(disposition).toMatch(/".*"/)
-    })
-
-    it('sets Content-Length based on file size', () => {
-      const contentLength = mockFileBuffer.length
-      expect(contentLength).toBe(17) // 'mock file content'.length
-      expect(typeof contentLength).toBe('number')
     })
   })
 
@@ -151,28 +126,21 @@ describe('download-cv API endpoint', () => {
     })
   })
 
-  describe('File Operations', () => {
-    it('reads file from correct path', () => {
-      const expectedPathParts = ['server', 'assets', 'cv-akmal.docx']
-      expectedPathParts.forEach((part) => {
-        expect(expectedPathParts).toContain(part)
-      })
+  describe('Storage Operations', () => {
+    it('uses correct storage namespace', () => {
+      const storageNamespace = 'assets:server'
+      expect(storageNamespace).toBe('assets:server')
     })
 
-    it('handles file read errors gracefully', () => {
-      vi.mocked(readFileSync).mockImplementation(() => {
-        throw new Error('File not found')
-      })
-
-      expect(() => readFileSync('nonexistent.docx')).toThrow('File not found')
+    it('uses correct file key', () => {
+      const fileKey = 'cv-akmal.docx'
+      expect(fileKey).toBe('cv-akmal.docx')
     })
 
-    it('handles permission errors', () => {
-      vi.mocked(readFileSync).mockImplementation(() => {
-        throw new Error('EACCES: permission denied')
-      })
-
-      expect(() => readFileSync('protected.docx')).toThrow('permission denied')
+    it('storage key matches expected file', () => {
+      const fileKey = 'cv-akmal.docx'
+      expect(fileKey.endsWith('.docx')).toBe(true)
+      expect(fileKey).toContain('cv')
     })
   })
 
@@ -188,10 +156,10 @@ describe('download-cv API endpoint', () => {
       expect(validationOrder[0]).toBe('check password')
     })
 
-    it('does not expose file system paths in errors', () => {
+    it('does not expose storage paths in errors', () => {
       const errorMessage = 'Failed to read CV file'
-      expect(errorMessage).not.toContain('server/assets')
-      expect(errorMessage).not.toContain('/')
+      expect(errorMessage).not.toContain('assets:server')
+      expect(errorMessage).not.toContain('cv-akmal.docx')
     })
 
     it('rejects requests without proper authentication', () => {

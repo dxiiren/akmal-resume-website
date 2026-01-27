@@ -1,6 +1,3 @@
-import { readFileSync } from 'fs'
-import { join } from 'path'
-
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
   const { password } = body
@@ -23,14 +20,17 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    // Read the CV file
-    const filePath = join(process.cwd(), 'server', 'assets', 'cv-akmal.docx')
-    const fileBuffer = readFileSync(filePath)
+    // Read the CV file using Nitro's storage API (works in production)
+    const storage = useStorage('assets:server')
+    const fileBuffer = await storage.getItemRaw('cv-akmal.docx')
+
+    if (!fileBuffer) {
+      throw new Error('CV file not found')
+    }
 
     // Set headers for file download
     setHeader(event, 'Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
     setHeader(event, 'Content-Disposition', 'attachment; filename="Akmal_Suhaimi_CV.docx"')
-    setHeader(event, 'Content-Length', fileBuffer.length)
 
     return fileBuffer
   } catch (error) {

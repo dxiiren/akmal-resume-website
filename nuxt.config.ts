@@ -138,5 +138,12 @@ export default defineNuxtConfig({
       ignore: ['/download', '/api'],
     },
     compressPublicAssets: true,
+    // Include server assets in the build
+    serverAssets: [
+      {
+        baseName: 'server',
+        dir: './server/assets',
+      },
+    ],
   },
 })
